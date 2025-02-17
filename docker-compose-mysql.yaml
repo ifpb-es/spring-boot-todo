@@ -1,0 +1,18 @@
+version: '3'
+services:
+  mysql:
+    container_name: daw-mysql
+    image: mysql:9.1
+    environment:
+      MYSQL_ROOT_PASSWORD: daw
+      MYSQL_DATABASE: daw
+      MYSQL_USER: daw
+      MYSQL_PASSWORD: daw
+    #volumes:
+    #  - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
+#volumes:
+#  mysql-data:

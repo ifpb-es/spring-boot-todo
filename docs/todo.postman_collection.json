@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "b28dae18-647e-4bc4-86b0-5da0dd238283",
+		"name": "todo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "5508457"
+	},
+	"item": [
+		{
+			"name": "todo-listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{URL}}/demo/api/todo"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-recuperar-por-lookup-id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{URL}}/demo/api/todo/97a6f468-0351-4a4d-bf99-b71010bd3915"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-remover",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{URL}}/demo/api/todo/97a6f468-0351-4a4d-bf99-b71010bd3915"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-criar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descrição\": \"Descrição 1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{URL}}/demo/api/todo"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-atualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descrição\": \"Descrição 11\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{URL}}/demo/api/todo/4c7953f9-196d-4165-8103-2358e034cf53"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-buscar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/demo/api/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=10",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"demo",
+						"api",
+						"todo",
+						"buscar"
+					],
+					"query": [
+						{
+							"key": "descrição",
+							"value": "esc"
+						},
+						{
+							"key": "concluído",
+							"value": "false"
+						},
+						{
+							"key": "númeroPágina",
+							"value": "0"
+						},
+						{
+							"key": "tamanhoPágina",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todo-fazer-tarefa",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": "{{URL}}/demo/api/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/fazer"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-desfazer-tarefa",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": "{{URL}}/demo/api/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/desfazer"
+			},
+			"response": []
+		}
+	]
+}

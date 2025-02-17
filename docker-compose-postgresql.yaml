@@ -1,0 +1,17 @@
+version: '3'
+services:
+  postgres:
+    container_name: daw-postgresql
+    image: postgres:17
+    environment:
+      POSTGRES_USER: daw
+      POSTGRES_PASSWORD: daw
+      POSTGRES_DB: daw
+    #volumes:
+    #  - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+#volumes:
+#  postgres-data:
