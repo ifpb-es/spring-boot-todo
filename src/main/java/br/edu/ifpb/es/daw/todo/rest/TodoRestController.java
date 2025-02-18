@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifpb.es.daw.todo.exception.TodoException;
 import br.edu.ifpb.es.daw.todo.mapper.TodoMapper;
 import br.edu.ifpb.es.daw.todo.model.Todo;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
@@ -35,7 +36,7 @@ public class TodoRestController {
 	private TodoService todoService;
 	
 	@GetMapping
-	public ResponseEntity<List<TodoResponseDTO>> listar() {
+	public ResponseEntity<List<TodoResponseDTO>> listar() throws TodoException {
 		List<Todo> objs = todoService.recuperarTodos();
 		List<TodoResponseDTO> resultado = objs.stream()
 													.map(todoMapper::from)
@@ -44,7 +45,7 @@ public class TodoRestController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody TodoSalvarRequestDTO dto) {
+	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody TodoSalvarRequestDTO dto) throws TodoException {
 		Todo objNovo = todoMapper.from(dto);
 		Todo objCriado = todoService.criar(objNovo);
 		TodoResponseDTO resultado = todoMapper.from(objCriado);
@@ -52,7 +53,7 @@ public class TodoRestController {
 	}
 	
 	@GetMapping("/{lookupId}")
-	public ResponseEntity<TodoResponseDTO> recuperarPor(@PathVariable UUID lookupId) {
+	public ResponseEntity<TodoResponseDTO> recuperarPor(@PathVariable UUID lookupId) throws TodoException {
 		// Recuperar
 		Todo obj = validarExiste(lookupId);
 		TodoResponseDTO resultado = todoMapper.from(obj);
@@ -60,7 +61,7 @@ public class TodoRestController {
 	}
 	
 	@PatchMapping("/{lookupId}")
-	public ResponseEntity<TodoResponseDTO> atualizar(@PathVariable UUID lookupId, @RequestBody TodoSalvarRequestDTO dto) {
+	public ResponseEntity<TodoResponseDTO> atualizar(@PathVariable UUID lookupId, @RequestBody TodoSalvarRequestDTO dto) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
 		objExistente.setDescrição(dto.getDescrição());
@@ -72,7 +73,7 @@ public class TodoRestController {
 	
 	
 	@DeleteMapping("/{lookupId}")
-	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) {
+	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) throws TodoException {
 		// Remover
 		Todo obj = validarExiste(lookupId);
 		todoService.remover(obj);
@@ -80,7 +81,7 @@ public class TodoRestController {
 	}
 	
 	@GetMapping("/buscar")
-	public ResponseEntity<Page<TodoResponseDTO>> buscar(TodoBuscarDTO dto) {
+	public ResponseEntity<Page<TodoResponseDTO>> buscar(TodoBuscarDTO dto) throws TodoException {
 		Page<Todo> objs = todoService.buscar(dto);
 		
 		Page<TodoResponseDTO> resultado = objs
@@ -90,7 +91,7 @@ public class TodoRestController {
 	}
 	
 	@PatchMapping("/{lookupId}/fazer")
-	public ResponseEntity<TodoResponseDTO> fazerTarefa(@PathVariable UUID lookupId) {
+	public ResponseEntity<TodoResponseDTO> fazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
 		Todo objAtualizado = todoService.fazerTarefa(objExistente);
@@ -100,7 +101,7 @@ public class TodoRestController {
 	}
 	
 	@PatchMapping("/{lookupId}/desfazer")
-	public ResponseEntity<TodoResponseDTO> desfazerTarefa(@PathVariable UUID lookupId) {
+	public ResponseEntity<TodoResponseDTO> desfazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
 		Todo objAtualizado = todoService.desfazerTarefa(objExistente);

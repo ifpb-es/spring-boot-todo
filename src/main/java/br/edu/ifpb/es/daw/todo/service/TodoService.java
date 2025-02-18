@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.ifpb.es.daw.todo.exception.EstadoInválidoException;
 import br.edu.ifpb.es.daw.todo.model.Todo;
 import br.edu.ifpb.es.daw.todo.repository.TodoRepository;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
@@ -56,9 +57,9 @@ public class TodoService {
 	}
 	
 	@Transactional
-	public Todo fazerTarefa(Todo obj) {
+	public Todo fazerTarefa(Todo obj) throws EstadoInválidoException {
 		if (obj.feito()) {
-			throw new IllegalArgumentException(String.format("Entidade 'Todo' de lookupId '%s' já foi marcada como feita!", obj.getLookupId()));
+			throw new EstadoInválidoException(String.format("Entidade 'Todo' de lookupId '%s' já foi marcada como feita!", obj.getLookupId()));
 		}
 		repository.atualizarCampoConcluídoEm(obj.getLookupId(), LocalDateTime.now());
 		Todo resultado = repository.findById(obj.getId()).get();
@@ -66,9 +67,9 @@ public class TodoService {
 	}
 
 	@Transactional
-	public Todo desfazerTarefa(Todo obj) {
+	public Todo desfazerTarefa(Todo obj) throws EstadoInválidoException {
 		if (!obj.feito()) {
-			throw new IllegalArgumentException(String.format("Entidade 'Todo' de lookupId '%s' não foi marcada com feita ainda!", obj.getLookupId()));
+			throw new EstadoInválidoException(String.format("Entidade 'Todo' de lookupId '%s' não foi marcada com feita ainda!", obj.getLookupId()));
 		}
 		repository.atualizarCampoConcluídoEm(obj.getLookupId(), null);
 		Todo resultado = repository.findById(obj.getId()).get();
