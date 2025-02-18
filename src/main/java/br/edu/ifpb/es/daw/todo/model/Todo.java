@@ -27,9 +27,6 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = {
-		@UniqueConstraint(name = "uc_descricao_tarefa", columnNames = {"descrição"})
-})
 public class Todo {
 
 	@Id
