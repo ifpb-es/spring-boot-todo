@@ -30,6 +30,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<postgresql.driver.version>42.7.5</postgresql.driver.version>
+		<springdoc.openapi.driver.version>2.8.5</springdoc.openapi.driver.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -74,6 +75,14 @@
 			<version>1.18.36</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- https://springdoc.org -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc.openapi.driver.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

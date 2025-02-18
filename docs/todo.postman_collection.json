@@ -11,7 +11,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{URL}}/demo/api/todo"
+				"url": "{{URL}}/todo"
 			},
 			"response": []
 		},
@@ -20,7 +20,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{URL}}/demo/api/todo/97a6f468-0351-4a4d-bf99-b71010bd3915"
+				"url": "{{URL}}/todo/a5a4488c-edd0-462c-9bf4-9b325ae1e6af"
 			},
 			"response": []
 		},
@@ -29,7 +29,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{URL}}/demo/api/todo/97a6f468-0351-4a4d-bf99-b71010bd3915"
+				"url": "{{URL}}/todo/f4f81669-3e12-44be-b478-208301f73dc8"
 			},
 			"response": []
 		},
@@ -40,14 +40,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"descrição\": \"Descrição 1\"\n}",
+					"raw": "{\n    \"descrição\": \"Descrição 2\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{URL}}/demo/api/todo"
+				"url": "{{URL}}/todo"
 			},
 			"response": []
 		},
@@ -58,14 +58,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"descrição\": \"Descrição 11\"\n}",
+					"raw": "{\n    \"descrição\": \"Descrição 1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{URL}}/demo/api/todo/4c7953f9-196d-4165-8103-2358e034cf53"
+				"url": "{{URL}}/todo/6c9d5433-f86e-47f1-ac72-63f45d5419f3"
 			},
 			"response": []
 		},
@@ -75,13 +75,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL}}/demo/api/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=10",
+					"raw": "{{URL}}/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=10",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"demo",
-						"api",
 						"todo",
 						"buscar"
 					],
@@ -112,7 +110,7 @@
 			"request": {
 				"method": "PATCH",
 				"header": [],
-				"url": "{{URL}}/demo/api/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/fazer"
+				"url": "{{URL}}/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/fazer"
 			},
 			"response": []
 		},
@@ -121,7 +119,34 @@
 			"request": {
 				"method": "PATCH",
 				"header": [],
-				"url": "{{URL}}/demo/api/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/desfazer"
+				"url": "{{URL}}/todo/01a71027-7b8d-4195-9320-683bbbf715d3/desfazer"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-swagger-ui",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{URL}}/swagger-ui.html"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-openapi-docs-json",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{URL}}/v3/api-docs"
+			},
+			"response": []
+		},
+		{
+			"name": "todo-openapi-docs-yaml",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{URL}}/v3/api-docs.yaml"
 			},
 			"response": []
 		}
