@@ -53,6 +53,7 @@ public class TodoService {
 	
 	public Page<Todo> buscar(TodoBuscarDTO dto) {
 		Page<Todo> resultado = repository.buscarPor(dto.getDescrição(), dto.getConcluído(), PageRequest.of(dto.getNúmeroPágina(), dto.getTamanhoPágina()));
+		//Page<Todo> resultado = repository.buscarPor(dto, PageRequest.of(dto.getNúmeroPágina(), dto.getTamanhoPágina()));
 		return resultado;
 	}
 	
