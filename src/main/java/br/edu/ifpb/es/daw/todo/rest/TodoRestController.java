@@ -27,7 +27,7 @@ import br.edu.ifpb.es.daw.todo.service.TodoService;
 
 @RestController
 @RequestMapping("/todo")
-public class TodoRestController {
+public class TodoRestController implements TodoRestControllerApi {
 
 	@Autowired
 	private TodoMapper todoMapper;
@@ -35,6 +35,7 @@ public class TodoRestController {
 	@Autowired
 	private TodoService todoService;
 	
+	@Override
 	@GetMapping
 	public ResponseEntity<List<TodoResponseDTO>> listar() throws TodoException {
 		List<Todo> objs = todoService.recuperarTodos();
@@ -44,6 +45,7 @@ public class TodoRestController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
+	@Override
 	@PostMapping
 	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody TodoSalvarRequestDTO dto) throws TodoException {
 		Todo objNovo = todoMapper.from(dto);
@@ -52,6 +54,7 @@ public class TodoRestController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
+	@Override
 	@GetMapping("/{lookupId}")
 	public ResponseEntity<TodoResponseDTO> recuperarPor(@PathVariable UUID lookupId) throws TodoException {
 		// Recuperar
@@ -60,6 +63,7 @@ public class TodoRestController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
+	@Override
 	@PatchMapping("/{lookupId}")
 	public ResponseEntity<TodoResponseDTO> atualizar(@PathVariable UUID lookupId, @RequestBody TodoSalvarRequestDTO dto) throws TodoException {
 		// Atualizar entidade existente
@@ -72,6 +76,7 @@ public class TodoRestController {
 	}
 	
 	
+	@Override
 	@DeleteMapping("/{lookupId}")
 	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) throws TodoException {
 		// Remover
@@ -80,6 +85,7 @@ public class TodoRestController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@Override
 	@GetMapping("/buscar")
 	public ResponseEntity<Page<TodoResponseDTO>> buscar(TodoBuscarDTO dto) throws TodoException {
 		Page<Todo> objs = todoService.buscar(dto);
@@ -90,6 +96,7 @@ public class TodoRestController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
+	@Override
 	@PatchMapping("/{lookupId}/fazer")
 	public ResponseEntity<TodoResponseDTO> fazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
@@ -100,6 +107,7 @@ public class TodoRestController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
+	@Override
 	@PatchMapping("/{lookupId}/desfazer")
 	public ResponseEntity<TodoResponseDTO> desfazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
