@@ -24,6 +24,7 @@ import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoSalvarRequestDTO;
 import br.edu.ifpb.es.daw.todo.service.TodoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/todo")
@@ -47,7 +48,7 @@ public class TodoRestController implements TodoRestControllerApi {
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody TodoSalvarRequestDTO dto) throws TodoException {
+	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody @Valid TodoSalvarRequestDTO dto) throws TodoException {
 		Todo objNovo = todoMapper.from(dto);
 		Todo objCriado = todoService.criar(objNovo);
 		TodoResponseDTO resultado = todoMapper.from(objCriado);
@@ -65,7 +66,7 @@ public class TodoRestController implements TodoRestControllerApi {
 	
 	@Override
 	@PatchMapping("/{lookupId}")
-	public ResponseEntity<TodoResponseDTO> atualizar(@PathVariable UUID lookupId, @RequestBody TodoSalvarRequestDTO dto) throws TodoException {
+	public ResponseEntity<TodoResponseDTO> atualizar(@PathVariable UUID lookupId, @RequestBody @Valid TodoSalvarRequestDTO dto) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
 		objExistente.setDescrição(dto.getDescrição());
