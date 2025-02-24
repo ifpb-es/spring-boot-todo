@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 
