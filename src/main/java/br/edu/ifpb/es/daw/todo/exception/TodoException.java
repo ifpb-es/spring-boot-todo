@@ -1,6 +1,6 @@
 package br.edu.ifpb.es.daw.todo.exception;
 
-public class TodoException extends Exception {
+public class TodoException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	// XXX: ProblemDetail: https://www.rfc-editor.org/rfc/rfc9457
 
 	static enum ErrorType {
-		ERRO_INESPERADO, REQUISICAO_INVALIDA, ESTADO_INVÁLIDO, ERRO_DE_VALIDAÇÃO;
+		ERRO_INESPERADO, REQUISICAO_INVALIDA, ESTADO_INVÁLIDO, ERRO_DE_VALIDAÇÃO, ACESSO_NEGADO;
 	}
 	
 	@ExceptionHandler(Exception.class)
@@ -62,6 +63,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	    ProblemDetail problemDetail = buildProblemDetail(ex, HttpStatus.BAD_REQUEST, ErrorType.ERRO_DE_VALIDAÇÃO);
 	    problemDetail.setProperty("erros", errors);
 	    return problemDetail;
+	}
+	
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public ProblemDetail handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
+		return buildProblemDetail(ex, HttpStatus.FORBIDDEN, ErrorType.ACESSO_NEGADO);
 	}
 
 	private ProblemDetail buildProblemDetail(Exception ex, HttpStatus status, ErrorType type) {

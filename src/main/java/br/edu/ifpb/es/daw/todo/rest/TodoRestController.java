@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,17 +32,17 @@ import jakarta.validation.Valid;
 public class TodoRestController implements TodoRestControllerApi {
 
 	@Autowired
-	private TodoMapper todoMapper;
+	private TodoMapper mapper;
 	
 	@Autowired
-	private TodoService todoService;
+	private TodoService service;
 	
 	@Override
 	@GetMapping
 	public ResponseEntity<List<TodoResponseDTO>> listar() throws TodoException {
-		List<Todo> objs = todoService.recuperarTodos();
+		List<Todo> objs = service.recuperarTodos();
 		List<TodoResponseDTO> resultado = objs.stream()
-													.map(todoMapper::from)
+													.map(mapper::from)
 													.toList();
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
@@ -49,9 +50,9 @@ public class TodoRestController implements TodoRestControllerApi {
 	@Override
 	@PostMapping
 	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody @Valid TodoSalvarRequestDTO dto) throws TodoException {
-		Todo objNovo = todoMapper.from(dto);
-		Todo objCriado = todoService.criar(objNovo);
-		TodoResponseDTO resultado = todoMapper.from(objCriado);
+		Todo objNovo = mapper.from(dto);
+		Todo objCriado = service.criar(objNovo);
+		TodoResponseDTO resultado = mapper.from(objCriado);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
@@ -60,7 +61,7 @@ public class TodoRestController implements TodoRestControllerApi {
 	public ResponseEntity<TodoResponseDTO> recuperarPor(@PathVariable UUID lookupId) throws TodoException {
 		// Recuperar
 		Todo obj = validarExiste(lookupId);
-		TodoResponseDTO resultado = todoMapper.from(obj);
+		TodoResponseDTO resultado = mapper.from(obj);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
@@ -70,8 +71,8 @@ public class TodoRestController implements TodoRestControllerApi {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
 		objExistente.setDescrição(dto.getDescrição());
-		Todo objAtualizado = todoService.atualizar(objExistente);
-		TodoResponseDTO resultado = todoMapper.from(objAtualizado);
+		Todo objAtualizado = service.atualizar(objExistente);
+		TodoResponseDTO resultado = mapper.from(objAtualizado);
 		
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
@@ -82,17 +83,17 @@ public class TodoRestController implements TodoRestControllerApi {
 	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) throws TodoException {
 		// Remover
 		Todo obj = validarExiste(lookupId);
-		todoService.remover(obj);
+		service.remover(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@Override
 	@GetMapping("/buscar")
 	public ResponseEntity<Page<TodoResponseDTO>> buscar(TodoBuscarDTO dto) throws TodoException {
-		Page<Todo> objs = todoService.buscar(dto);
+		Page<Todo> objs = service.buscar(dto);
 		
 		Page<TodoResponseDTO> resultado = objs
-				.map(todoMapper::from);
+				.map(mapper::from);
 		
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
@@ -102,26 +103,27 @@ public class TodoRestController implements TodoRestControllerApi {
 	public ResponseEntity<TodoResponseDTO> fazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
-		Todo objAtualizado = todoService.fazerTarefa(objExistente);
-		TodoResponseDTO resultado = todoMapper.from(objAtualizado);
+		Todo objAtualizado = service.fazerTarefa(objExistente);
+		TodoResponseDTO resultado = mapper.from(objAtualizado);
 		
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
 	@Override
 	@PatchMapping("/{lookupId}/desfazer")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USUARIO')")
 	public ResponseEntity<TodoResponseDTO> desfazerTarefa(@PathVariable UUID lookupId) throws TodoException {
 		// Atualizar entidade existente
 		Todo objExistente = validarExiste(lookupId);
-		Todo objAtualizado = todoService.desfazerTarefa(objExistente);
-		TodoResponseDTO resultado = todoMapper.from(objAtualizado);
+		Todo objAtualizado = service.desfazerTarefa(objExistente);
+		TodoResponseDTO resultado = mapper.from(objAtualizado);
 		
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 
 	private Todo validarExiste(UUID lookupId) {
 		// Checar se entidade existe
-		Optional<Todo> opt = todoService.buscarPor(lookupId);
+		Optional<Todo> opt = service.buscarPor(lookupId);
 		if (!opt.isPresent()) {
 			// Lançar erro porque não encontrou
 			throw new IllegalArgumentException(String.format("Entidade 'Todo' de lookupId '%s' não foi encontrada!", lookupId));

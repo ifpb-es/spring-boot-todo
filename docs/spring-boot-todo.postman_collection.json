@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "b28dae18-647e-4bc4-86b0-5da0dd238283",
+		"name": "spring-boot-todo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "5508457"
+	},
+	"item": [
+		{
+			"name": "todo",
+			"item": [
+				{
+					"name": "todo-listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/todo"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-recuperar-por-lookup-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/todo/61c337b2-ca59-4237-9e9a-22ada58509b1"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-remover",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{URL}}/todo/a5a4488c-edd0-462c-9bf4-9b325ae1e6ag"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-criar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descrição\": \"Descrição 333\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/todo"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-atualizar",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descrição\": \"Descrição 6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/todo/4f453e34-a4a2-4a37-bfad-0b8e0e7d01e0"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=10",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"todo",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "descrição",
+									"value": "esc"
+								},
+								{
+									"key": "concluído",
+									"value": "false"
+								},
+								{
+									"key": "númeroPágina",
+									"value": "0"
+								},
+								{
+									"key": "tamanhoPágina",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "todo-fazer-tarefa",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{URL}}/todo/1b0e7d99-cb96-4146-ac8c-c12bede990f9/fazer"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-desfazer-tarefa",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{URL}}/todo/01a71027-7b8d-4195-9320-683bbbf715d3/desfazer"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-swagger-ui",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/swagger-ui.html"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-openapi-docs-json",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/v3/api-docs"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-openapi-docs-yaml",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/v3/api-docs.yaml"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "usuario-listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/usuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "usuario-registrar",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Sicrano2\",\n    \"email\": \"sicrano2@gmail.com\",\n    \"senha\": \"1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/auth/registrar"
+					},
+					"response": []
+				},
+				{
+					"name": "usuario-login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code == 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"TOKEN\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sicrano2@gmail.com\",\n    \"senha\": \"1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/auth/login"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{TOKEN}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
