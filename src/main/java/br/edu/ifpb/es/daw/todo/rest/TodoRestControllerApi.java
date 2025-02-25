@@ -99,7 +99,7 @@ public interface TodoRestControllerApi {
 	@Operation(summary = "Remover uma tarefa existente.", 
 			   description = "Remove uma tarefa existente com base no seu lookupId.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", 
+			@ApiResponse(responseCode = "204", 
 						 description = "Operação realizada com sucesso.", 
 					 	 content = @Content),
 			@ApiResponse(responseCode = "400", 
@@ -120,6 +120,7 @@ public interface TodoRestControllerApi {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
 					 	 content = @Content(mediaType = "application/json",
+					 	 					/*array = @ArraySchema(schema = @Schema(implementation = TodoResponseDTO.class))*/
 					 						schema = @Schema(implementation = Page.class, contentSchema = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
