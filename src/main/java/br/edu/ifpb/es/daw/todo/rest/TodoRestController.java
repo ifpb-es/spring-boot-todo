@@ -61,7 +61,7 @@ public class TodoRestController implements TodoRestControllerApi {
 		TodoResponseDTO resultado = todoService.atualizar(lookupId, dto);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
-
+	
 	@Override
 	@DeleteMapping("/{lookupId}")
 	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) {
