@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpb.es.daw.todo.exception.TodoException;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoSalvarRequestDTO;
@@ -58,7 +57,6 @@ public class TodoRestController {
 		TodoResponseDTO resultado = todoService.atualizar(lookupId, dto);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
-	
 	
 	@DeleteMapping("/{lookupId}")
 	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) {
