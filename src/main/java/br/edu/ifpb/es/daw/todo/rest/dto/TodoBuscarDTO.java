@@ -1,16 +1,16 @@
 package br.edu.ifpb.es.daw.todo.rest.dto;
 
-import lombok.Data;
+public record TodoBuscarDTO(String descrição,
+							Boolean concluído,
+							Integer númeroPágina,
+							Integer tamanhoPágina) {
 
-@Data
-public class TodoBuscarDTO {
-
-	private String descrição;
-	
-	private Boolean concluído;
-	
-	private Integer númeroPágina = 0;
-	
-	private Integer tamanhoPágina = 10;
-	
+	public TodoBuscarDTO {
+		if (númeroPágina == null) {
+			númeroPágina = 0;
+		}
+		if (tamanhoPágina == null) {
+			tamanhoPágina = 10;
+		}
+	}
 }
