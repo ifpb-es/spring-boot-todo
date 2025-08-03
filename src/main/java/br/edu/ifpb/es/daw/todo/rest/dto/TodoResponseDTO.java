@@ -7,4 +7,3 @@ import lombok.Builder;
 
 @Builder
 public record TodoResponseDTO(UUID lookupId, String descrição, LocalDateTime concluídoEm) { }
-
