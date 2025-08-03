@@ -3,15 +3,8 @@ package br.edu.ifpb.es.daw.todo.rest.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-public class TodoResponseDTO {
+@Builder
+public record TodoResponseDTO(UUID lookupId, String descrição, LocalDateTime concluídoEm) { }
 
-	private UUID lookupId;
-
-	private String descrição;
-
-	private LocalDateTime concluídoEm;
-
-}
