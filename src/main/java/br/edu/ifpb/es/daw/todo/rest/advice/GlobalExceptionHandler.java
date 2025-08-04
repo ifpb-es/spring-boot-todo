@@ -54,8 +54,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
+		ex.getBindingResult().getFieldErrors().forEach((error) -> {
+			String fieldName = error.getField();
 			String errorMessage = error.getDefaultMessage();
 			errors.put(fieldName, errorMessage);
 		});
