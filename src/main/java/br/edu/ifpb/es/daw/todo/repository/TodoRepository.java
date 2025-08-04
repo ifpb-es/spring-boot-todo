@@ -1,12 +1,11 @@
 package br.edu.ifpb.es.daw.todo.repository;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -20,18 +19,18 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 			+ " AND (:concluído is null or ((t.concluídoEm is null and :concluído = FALSE) "
 			+ "									or "
 			+ "								(t.concluídoEm is not null and :concluído = TRUE)))"
-			)
+	)
 	Page<Todo> buscarPor(String descrição, Boolean concluído, Pageable pageable);
 
 	@Query("SELECT t FROM Todo t WHERE (:#{#dto.descrição} is null or t.descrição LIKE %:#{#dto.descrição}%)"
 			+ " AND (:#{#dto.concluído} is null or ((t.concluídoEm is null and :#{#dto.concluído} = FALSE) "
 			+ "											or "
 			+ "										(t.concluídoEm is not null and :#{#dto.concluído} = TRUE)))"
-			)
+	)
 	Page<Todo> buscarPor(TodoBuscarDTO dto, Pageable pageable);
-	
-	@Modifying(flushAutomatically = true, clearAutomatically = true)
-	@Query("UPDATE Todo todo SET todo.concluídoEm = :concluídoEm WHERE todo.lookupId = :lookupId")
-	int atualizarCampoConcluídoEm(UUID lookupId, LocalDateTime concluídoEm);
-	
+
+	// Referência: https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+	Optional<Todo> findByLookupId(UUID lookupId);
+
+	Optional<Todo> findByIdIsNotAndDescriçãoIgnoreCaseAndConcluídoEmIsNull(Long id, String descrição);
 }
