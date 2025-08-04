@@ -16,13 +16,17 @@ import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 	
 	@Query("SELECT t FROM Todo t WHERE (:descrição is null or t.descrição LIKE %:descrição%)"
-			+ " AND (:concluído is null or ((t.concluídoEm is null and :concluído = FALSE) or (t.concluídoEm is not null and :concluído = TRUE)))"
-			)
+			+ " AND (:concluído is null or ((t.concluídoEm is null and :concluído = FALSE) "
+			+ "									or "
+			+ "								(t.concluídoEm is not null and :concluído = TRUE)))"
+	)
 	Page<Todo> buscarPor(String descrição, Boolean concluído, Pageable pageable);
 
 	@Query("SELECT t FROM Todo t WHERE (:#{#dto.descrição} is null or t.descrição LIKE %:#{#dto.descrição}%)"
-			+ " AND (:#{#dto.concluído} is null or ((t.concluídoEm is null and :#{#dto.concluído} = FALSE) or (t.concluídoEm is not null and :#{#dto.concluído} = TRUE)))"
-			)
+			+ " AND (:#{#dto.concluído} is null or ((t.concluídoEm is null and :#{#dto.concluído} = FALSE) "
+			+ "											or "
+			+ "										(t.concluídoEm is not null and :#{#dto.concluído} = TRUE)))"
+	)
 	Page<Todo> buscarPor(TodoBuscarDTO dto, Pageable pageable);
 
 	// Referência: https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html

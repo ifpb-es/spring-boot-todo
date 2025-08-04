@@ -32,7 +32,7 @@ public class TodoRestController {
         this.todoService = todoService;
     }
 
-    @GetMapping
+	@GetMapping
 	public ResponseEntity<List<TodoResponseDTO>> listar() {
 		List<TodoResponseDTO> resultado = todoService.recuperarTodos();
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -57,7 +57,6 @@ public class TodoRestController {
 		TodoResponseDTO resultado = todoService.atualizar(lookupId, dto);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
-	
 	
 	@DeleteMapping("/{lookupId}")
 	public ResponseEntity<Void> remover(@PathVariable UUID lookupId) {
