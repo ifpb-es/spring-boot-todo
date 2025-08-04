@@ -16,29 +16,31 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.edu.ifpb.es.daw.todo.service.UsuarioService;
-import br.edu.ifpb.es.daw.todo.util.JwtAuthenticationFilter;
+import br.edu.ifpb.es.daw.todo.rest.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfiguration {
 	
-	@Autowired
 	private UsuarioService usuarioService;
-	
-	@Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-	
-	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	@Bean
+
+	@Autowired
+    public SecurityConfiguration(UsuarioService usuarioService, JwtAuthenticationFilter jwtAuthenticationFilter, PasswordEncoder passwordEncoder) {
+        this.usuarioService = usuarioService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// Referência: https://github.com/spring-projects/spring-security/issues/12861
 		
 		http.csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
-	                .requestMatchers("/auth/login", "/auth/registrar").permitAll()
+	                .requestMatchers("/auth/login", "/usuario/registrar").permitAll()
 	                .anyRequest().authenticated())
 	        .sessionManagement(management -> management
 	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -49,8 +51,7 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    	DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(usuarioService); // return user
+    	DaoAuthenticationProvider provider = new DaoAuthenticationProvider(usuarioService);
         provider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(provider);
     }

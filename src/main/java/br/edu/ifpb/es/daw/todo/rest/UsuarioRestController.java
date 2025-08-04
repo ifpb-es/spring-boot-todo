@@ -2,16 +2,18 @@ package br.edu.ifpb.es.daw.todo.rest;
 
 import java.util.List;
 
+import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.es.daw.todo.exception.TodoException;
-import br.edu.ifpb.es.daw.todo.mapper.UsuarioMapper;
-import br.edu.ifpb.es.daw.todo.model.Usuario;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
 import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 
@@ -19,16 +21,26 @@ import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 @RequestMapping("/usuario")
 public class UsuarioRestController {
 
-	@Autowired
-	private UsuarioMapper mapper;
+	private final UsuarioService service;
 
 	@Autowired
-	private UsuarioService service;
+    public UsuarioRestController(UsuarioService service) {
+        this.service = service;
+    }
 
-	@GetMapping
+    @GetMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	public ResponseEntity<List<UsuarioResponseDTO>> listar() throws TodoException {
-		List<Usuario> objs = service.recuperarTodos();
-		List<UsuarioResponseDTO> resultado = objs.stream().map(mapper::from).toList();
+		List<UsuarioResponseDTO> resultado = service.recuperarTodos();
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
+	}
+
+	// Forma mais prática de liberar acesso a todos, mas não funciona em
+	// conjunto com a configuração de segurança sendo usada no momento (ver SecurityConfig)
+	// @PreAuthorize("permitAll()")
+	@PostMapping("/registrar")
+	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
+		UsuarioResponseDTO resultado = service.criar(dto);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 }

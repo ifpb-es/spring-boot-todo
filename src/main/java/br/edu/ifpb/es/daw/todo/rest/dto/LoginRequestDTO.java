@@ -1,9 +1,5 @@
 package br.edu.ifpb.es.daw.todo.rest.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class LoginRequestDTO {
-	private String email;
-    private String senha;
-}
+public record LoginRequestDTO(@NotBlank String email, @NotBlank String senha) { }

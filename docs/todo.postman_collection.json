@@ -1,154 +1,288 @@
 {
 	"info": {
 		"_postman_id": "b28dae18-647e-4bc4-86b0-5da0dd238283",
-		"name": "todo",
+		"name": "spring-boot-todo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "5508457"
 	},
 	"item": [
 		{
-			"name": "todo-listar",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{URL}}/todo"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-recuperar-por-lookup-id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{URL}}/todo/a5a4488c-edd0-462c-9bf4-9b325ae1e6af"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-remover",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "{{URL}}/todo/f4f81669-3e12-44be-b478-208301f73dc8"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-criar",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"descrição\": \"Descrição 2\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "todo",
+			"item": [
+				{
+					"name": "todo-criar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descrição\": \"Descrição 2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/todo"
+					},
+					"response": []
 				},
-				"url": "{{URL}}/todo"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-atualizar",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"descrição\": \"Descrição 1\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "todo-listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/todo"
+					},
+					"response": []
 				},
-				"url": "{{URL}}/todo/6c9d5433-f86e-47f1-ac72-63f45d5419f3"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-buscar",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{URL}}/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=10",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"todo",
-						"buscar"
-					],
-					"query": [
-						{
-							"key": "descrição",
-							"value": "esc"
+				{
+					"name": "todo-recuperar-por-lookup-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/todo/337e96ec-5052-4c5c-b537-ee62acaa2aab"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-remover",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{URL}}/todo/c1c201c7-9d0e-4b3f-ae6a-3fb2fddfbff8"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-atualizar",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descrição\": \"Descrição 22\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "concluído",
-							"value": "false"
-						},
-						{
-							"key": "númeroPágina",
-							"value": "0"
-						},
-						{
-							"key": "tamanhoPágina",
-							"value": "10"
+						"url": "{{URL}}/todo/337e96ec-5052-4c5c-b537-ee62acaa2aab"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/todo/buscar?descrição=esc&concluído=false&númeroPágina=0&tamanhoPágina=11",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"todo",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "descrição",
+									"value": "esc"
+								},
+								{
+									"key": "concluído",
+									"value": "false"
+								},
+								{
+									"key": "númeroPágina",
+									"value": "0"
+								},
+								{
+									"key": "tamanhoPágina",
+									"value": "11"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "todo-fazer-tarefa",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{URL}}/todo/337e96ec-5052-4c5c-b537-ee62acaa2aab/fazer"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-desfazer-tarefa",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{URL}}/todo/337e96ec-5052-4c5c-b537-ee62acaa2aab/desfazer"
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "todo-fazer-tarefa",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"url": "{{URL}}/todo/5f6d870b-09b9-4907-9f92-f6f0b18b5e7d/fazer"
-			},
-			"response": []
+			"name": "usuario",
+			"item": [
+				{
+					"name": "usuario-listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "usuario-registrar",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Fulano\",\n    \"email\": \"fulano@gmail.com\",\n    \"senha\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/usuario/registrar"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "todo-desfazer-tarefa",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"url": "{{URL}}/todo/01a71027-7b8d-4195-9320-683bbbf715d3/desfazer"
-			},
-			"response": []
+			"name": "auth",
+			"item": [
+				{
+					"name": "usuario-login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code == 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"TOKEN\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"fulano@gmail.com\",\n    \"senha\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "usuario-logado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code == 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"TOKEN\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/auth/me"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "todo-swagger-ui",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{URL}}/swagger-ui.html"
-			},
-			"response": []
+			"name": "docs",
+			"item": [
+				{
+					"name": "todo-swagger-ui",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/swagger-ui.html"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-openapi-docs-json",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/v3/api-docs"
+					},
+					"response": []
+				},
+				{
+					"name": "todo-openapi-docs-yaml",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/v3/api-docs.yaml"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{TOKEN}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"name": "todo-openapi-docs-json",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{URL}}/v3/api-docs"
-			},
-			"response": []
-		},
-		{
-			"name": "todo-openapi-docs-yaml",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{URL}}/v3/api-docs.yaml"
-			},
-			"response": []
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

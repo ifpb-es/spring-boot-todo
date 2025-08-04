@@ -40,7 +40,10 @@ public class Todo {
 	private LocalDateTime criadoEm;
 	
 	private LocalDateTime concluídoEm;
-	
+
+	// TODO: adicionar campo abaixo e lógica necessária para restringir o acesso
+	//private Usuario criadoPor;
+
 	@PrePersist
 	private void init() {
 		this.lookupId = UUID.randomUUID();

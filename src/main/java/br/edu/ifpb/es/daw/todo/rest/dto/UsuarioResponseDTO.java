@@ -1,15 +1,8 @@
 package br.edu.ifpb.es.daw.todo.rest.dto;
 
+import lombok.Builder;
+
 import java.util.UUID;
 
-import lombok.Data;
-
-@Data
-public class UsuarioResponseDTO {
-
-	private UUID lookupId;
-	
-	private String nome;
-	
-	private String email;
-}
+@Builder
+public record UsuarioResponseDTO(UUID lookupId, String nome, String email) { }

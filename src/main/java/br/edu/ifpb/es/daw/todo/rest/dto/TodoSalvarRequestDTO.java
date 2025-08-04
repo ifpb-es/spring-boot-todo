@@ -1,12 +1,6 @@
 package br.edu.ifpb.es.daw.todo.rest.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import jakarta.validation.constraints.Size;
 
-@Data
-public class TodoSalvarRequestDTO {
-	
-	@NotBlank
-	private String descrição;
-
-}
+public record TodoSalvarRequestDTO(@NotBlank @Size(min = 5, max = 255) String descrição) { }

@@ -10,21 +10,19 @@ import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
 public class UsuarioMapper {
 	
 	public UsuarioResponseDTO from(Usuario from) {
-		UsuarioResponseDTO obj = new UsuarioResponseDTO();
-		obj.setLookupId(from.getLookupId());
-		obj.setEmail(from.getEmail());
-		obj.setNome(from.getNome());
-		return obj;
+		return UsuarioResponseDTO.builder()
+				.lookupId(from.getLookupId())
+				.email(from.getEmail())
+				.nome(from.getNome())
+				.build();
 	}
 
 	public Usuario from(UsuarioSalvarRequestDTO from) {
-		Usuario obj = new Usuario();
-		obj.setNome(from.getNome());
-		obj.setEmail(from.getEmail());
-		obj.setSenha(from.getSenha());
-		return obj;
+		return Usuario.builder()
+				.nome(from.nome())
+				.email(from.email())
+				.senha(from.senha())
+				.build();
 	}
-	
-	
 
 }

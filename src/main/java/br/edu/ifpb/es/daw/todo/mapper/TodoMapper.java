@@ -10,17 +10,17 @@ import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
 public class TodoMapper {
 
 	public Todo from(TodoSalvarRequestDTO from) {
-		Todo obj = new Todo();
-		obj.setDescrição(from.getDescrição());
-		return obj;
+		return Todo.builder()
+				.descrição(from.descrição())
+				.build();
 	}
 	
 	public TodoResponseDTO from(Todo from) {
-		TodoResponseDTO obj = new TodoResponseDTO();
-		obj.setConcluídoEm(from.getConcluídoEm());
-		obj.setDescrição(from.getDescrição());
-		obj.setLookupId(from.getLookupId());
-		return obj;
+		return TodoResponseDTO.builder()
+				.lookupId(from.getLookupId())
+				.descrição(from.getDescrição())
+				.concluídoEm(from.getConcluídoEm())
+				.build();
 	}
 
 }

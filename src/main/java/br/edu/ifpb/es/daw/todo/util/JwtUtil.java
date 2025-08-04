@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import io.jsonwebtoken.io.Decoders;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifpb.es.daw.todo.exception.JwtTokenException;
@@ -16,9 +17,12 @@ import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class JwtUtil {
-	
+
+    // TODO: make it a property
+    private final String secret = "your-strong-secret-key-here-1234567890";
+
 	// Use Keys to generate a secure key (replace "secretKey" with a strong secret)
-    private final SecretKey jwtSecret = Keys.hmacShaKeyFor("your-strong-secret-key-here-1234567890".getBytes());
+    private final SecretKey jwtSecret = Keys.hmacShaKeyFor(secret.getBytes());
 
     private final long jwtExpirationMs = 86400000; // 1 day
 

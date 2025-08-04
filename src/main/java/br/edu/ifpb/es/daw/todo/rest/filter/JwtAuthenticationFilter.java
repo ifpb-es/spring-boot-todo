@@ -1,12 +1,10 @@
-package br.edu.ifpb.es.daw.todo.util;
+package br.edu.ifpb.es.daw.todo.rest.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+import br.edu.ifpb.es.daw.todo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,11 +19,14 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JwtUtil jwtUtils;
-    
-    @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    public JwtAuthenticationFilter(JwtUtil jwtUtils, UsuarioService usuarioService) {
+        this.jwtUtils = jwtUtils;
+        this.usuarioService = usuarioService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
-            Usuario usuario = (Usuario) usuarioService.loadUserByUsername(username);
+            Usuario usuario = usuarioService.loadUserByUsername(username);
 
             // Set the username in the security context
             SecurityContextHolder.getContext().setAuthentication(
