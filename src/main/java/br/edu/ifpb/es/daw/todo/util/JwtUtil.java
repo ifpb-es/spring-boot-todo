@@ -1,10 +1,17 @@
 package br.edu.ifpb.es.daw.todo.util;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.io.Decoders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifpb.es.daw.todo.exception.JwtTokenException;
@@ -18,53 +25,70 @@ import io.jsonwebtoken.security.SignatureException;
 @Component
 public class JwtUtil {
 
-    // TODO: make it a property
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
+
+    private static final String CLAIM_ROLES = "roles";
+
+    // TODO: rename class to JwtService
+
+    // TODO: make it a property @Value("${app.jwt.secret}")
     private final String secret = "your-strong-secret-key-here-1234567890";
 
 	// Use Keys to generate a secure key (replace "secretKey" with a strong secret)
     private final SecretKey jwtSecret = Keys.hmacShaKeyFor(secret.getBytes());
 
-    private final long jwtExpirationMs = 86400000; // 1 day
+//    private final long jwtExpirationMs = 86400000; // 1 day
+    private final long jwtExpirationMs = 3600000; // 1 hour
+//    private final long jwtExpirationMs = 60000; // 1 min
 
     // Generate JWT token
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(UserDetails userDetails) {
         return Jwts.builder()
-                .subject(username)
+                .subject(userDetails.getUsername())
+                .claim(CLAIM_ROLES, userDetails.getAuthorities()
+                                                .stream()
+                                                .map(GrantedAuthority::getAuthority)
+                                                .toList())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(jwtSecret) // Use SecretKey directly
                 .compact();
     }
 
-    // Validate JWT token
-    public boolean validateJwtToken(String authToken) throws JwtTokenException {
-        try {
-            Jwts.parser()
-                    .verifyWith(jwtSecret) // Use verifyWith() instead of setSigningKey()
-                    .build()
-                    .parseSignedClaims(authToken); // Use parseSignedClaims() instead of parseClaimsJws()
-            return true;
-        } catch (Exception e) {
-            throw new JwtTokenException("Invalid or expired token.");
-        }
-    }
-
-    // Get username from JWT token
-    public String getUserNameFromJwtToken(String token) throws JwtTokenException {
+    private Jws<Claims> getClaims(String authToken) throws JwtTokenException {
         try {
             return Jwts.parser()
                     .verifyWith(jwtSecret)
                     .build()
-                    .parseSignedClaims(token)
-                    .getPayload()
-                    .getSubject();
+                    .parseSignedClaims(authToken);
         } catch (ExpiredJwtException ex) {
             throw new JwtTokenException("Token expired! Please login again.");
         } catch (UnsupportedJwtException | MalformedJwtException
-                | SignatureException ex) {
+                 | SignatureException ex) {
             throw new JwtTokenException("Invalid token! Authentication failed.");
         } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new JwtTokenException("Authentication error: " + ex.getMessage());
         }
+    }
+
+    // Validate JWT token
+    public boolean validateJwtToken(String authToken) throws JwtTokenException {
+        getClaims(authToken);
+        return true;
+    }
+
+    // Get username from JWT token
+    public String getUserNameFromJwtToken(String authToken) throws JwtTokenException {
+        return getClaims(authToken)
+                .getPayload()
+                .getSubject();
+    }
+
+    // Get roles from JWT token
+    public List<String> getRolesFromJwtToken(String authToken) throws JwtTokenException {
+        @SuppressWarnings("unchecked")
+        List<String> roles = (List<String>) getClaims(authToken).getPayload().get(CLAIM_ROLES);
+        return roles;
     }
 }

@@ -36,11 +36,12 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// Referência: https://github.com/spring-projects/spring-security/issues/12861
-		
 		http.csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(auth -> auth
-	                .requestMatchers("/auth/login", "/usuario/registrar").permitAll()
+                    // Motivo da configuração abaixo:
+                    // https://github.com/spring-projects/spring-security/issues/12861
+                    // https://github.com/spring-projects/spring-security/issues/16250
+	                .requestMatchers("/auth/login", "/usuario/registrar", "/swagger-ui.html", "/v3/api-docs", "/v3/api-docs.yaml").permitAll()
 	                .anyRequest().authenticated())
 	        .sessionManagement(management -> management
 	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -29,7 +29,7 @@ public class UsuarioRestController {
     }
 
     @GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<UsuarioResponseDTO>> listar() throws TodoException {
 		List<UsuarioResponseDTO> resultado = service.recuperarTodos();
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -37,7 +37,10 @@ public class UsuarioRestController {
 
 	// Forma mais prática de liberar acesso a todos, mas não funciona em
 	// conjunto com a configuração de segurança sendo usada no momento (ver SecurityConfig)
-	// @PreAuthorize("permitAll()")
+	// Referência(s):
+	// https://github.com/spring-projects/spring-security/issues/12861
+	// https://github.com/spring-projects/spring-security/issues/16250
+	//@PreAuthorize("permitAll()")
 	@PostMapping("/registrar")
 	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);

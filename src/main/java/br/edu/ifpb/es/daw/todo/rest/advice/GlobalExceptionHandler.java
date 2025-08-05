@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.edu.ifpb.es.daw.todo.exception.JwtTokenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	// XXX: ProblemDetail: https://www.rfc-editor.org/rfc/rfc9457
 
 	static enum ErrorType {
-		ERRO_INESPERADO, REQUISICAO_INVALIDA, ESTADO_INVÁLIDO, ERRO_DE_VALIDAÇÃO, ACESSO_NEGADO;
+		ERRO_INESPERADO, REQUISICAO_INVALIDA, ESTADO_INVÁLIDO, ERRO_DE_VALIDAÇÃO, ACESSO_NEGADO, NAO_AUTORIZADO;
 	}
 	
 	@ExceptionHandler(Exception.class)
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		return ResponseEntity.ofNullable(handleMethodArgumentNotValidException(ex));
+		return ResponseEntity.of(handleMethodArgumentNotValidException(ex)).build();
 	}
 
 	private ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
@@ -67,6 +67,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(AuthorizationDeniedException.class)
 	public ProblemDetail handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
 		return buildProblemDetail(ex, HttpStatus.FORBIDDEN, ErrorType.ACESSO_NEGADO);
+	}
+
+	@ExceptionHandler(JwtTokenException.class)
+	public ProblemDetail handleJwtTokenException(JwtTokenException ex) {
+		return buildProblemDetail(ex, HttpStatus.UNAUTHORIZED, ErrorType.NAO_AUTORIZADO);
 	}
 
 	private ProblemDetail buildProblemDetail(Exception ex, HttpStatus status, ErrorType type) {
