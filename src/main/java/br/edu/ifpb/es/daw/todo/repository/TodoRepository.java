@@ -14,7 +14,7 @@ import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
-	
+
 	@Query("SELECT t FROM Todo t WHERE (:descrição is null or t.descrição LIKE %:descrição%)"
 			+ " AND (:concluído is null or ((t.concluídoEm is null and :concluído = FALSE) "
 			+ "									or "
