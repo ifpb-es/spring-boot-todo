@@ -2,7 +2,6 @@ package br.edu.ifpb.es.daw.todo.service;
 
 import br.edu.ifpb.es.daw.todo.rest.dto.LoginRequestDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.LoginResponseDTO;
-import br.edu.ifpb.es.daw.todo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private AuthenticationManager authenticationManager;
-    private JwtUtil jwtUtils;
+    private JwtService jwtUtils;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtils) {
+    public AuthService(AuthenticationManager authenticationManager, JwtService jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }

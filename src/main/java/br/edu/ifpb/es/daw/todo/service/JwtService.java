@@ -1,4 +1,4 @@
-package br.edu.ifpb.es.daw.todo.util;
+package br.edu.ifpb.es.daw.todo.service;
 
 import java.util.Date;
 import java.util.List;
@@ -7,9 +7,10 @@ import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.io.Decoders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,23 +24,22 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 
 @Component
-public class JwtUtil {
+public class JwtService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtService.class);
 
     private static final String CLAIM_ROLES = "roles";
 
-    // TODO: rename class to JwtService
-
-    // TODO: make it a property @Value("${app.jwt.secret}")
-    private final String secret = "your-strong-secret-key-here-1234567890";
-
 	// Use Keys to generate a secure key (replace "secretKey" with a strong secret)
-    private final SecretKey jwtSecret = Keys.hmacShaKeyFor(secret.getBytes());
+    private final SecretKey jwtSecret;
 
-//    private final long jwtExpirationMs = 86400000; // 1 day
-    private final long jwtExpirationMs = 3600000; // 1 hour
-//    private final long jwtExpirationMs = 60000; // 1 min
+    @Value("${app.security.jwt.expiration-time}")
+    private long jwtExpirationMs;
+
+    @Autowired
+    public JwtService(@Value("${app.security.jwt.secret-key}") String secret) {
+        this.jwtSecret = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     // Generate JWT token
     public String generateJwtToken(UserDetails userDetails) {
