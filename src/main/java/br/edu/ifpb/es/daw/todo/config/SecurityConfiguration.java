@@ -60,7 +60,9 @@ public class SecurityConfiguration {
                     // Motivo da configuração abaixo:
                     // https://github.com/spring-projects/spring-security/issues/12861
                     // https://github.com/spring-projects/spring-security/issues/16250
-	                .requestMatchers("/auth/login", "/usuario/registrar", "/swagger-ui.html", "/v3/api-docs", "/v3/api-docs.yaml").permitAll()
+                    .requestMatchers("/auth/login").permitAll() // Endpoint de Login
+	                .requestMatchers("/usuario/registrar").permitAll() // Endpoint de registrar novo usuário
+                    .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll() // Endpoints de documentação da API
 	                .anyRequest().authenticated())
 	        .sessionManagement(management -> management
 	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
