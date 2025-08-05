@@ -89,7 +89,6 @@ public class TodoRestController implements TodoRestControllerApi {
 	
 	@Override
 	@PatchMapping("/{lookupId}/desfazer")
-	@PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
 	public ResponseEntity<TodoResponseDTO> desfazerTarefa(@PathVariable UUID lookupId) {
 		// Atualizar entidade existente
 		TodoResponseDTO resultado = todoService.desfazerTarefa(lookupId);
