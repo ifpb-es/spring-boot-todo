@@ -203,20 +203,6 @@
 				},
 				{
 					"name": "usuario-logado",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code == 200) {",
-									"    var jsonData = pm.response.json();",
-									"    pm.environment.set(\"TOKEN\", jsonData.token);",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"request": {
 						"method": "GET",
 						"header": [],
