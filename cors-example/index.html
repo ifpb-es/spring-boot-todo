@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API - CORS</title>
+    <script>
+        (async () => {
+            async function criar(payload) {
+                try {
+                    let response = await fetch("http://localhost:8080/demo/api/todo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                    });
+                    return await response.json();
+                } catch(ex) {
+                    console.error(ex);
+                }
+            }
+
+            let response = await criar({
+                "descrição": "Descrição " + new Date().getTime()
+            });
+            
+            console.log(response);
+        })();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
