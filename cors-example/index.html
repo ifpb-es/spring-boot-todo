@@ -22,8 +22,8 @@
             }
 
             let response = await criar({
-                        nome: "Fulano7",
-                        email: "fulano7@gmail.com",
+                        nome: `Fulano ${new Date().getTime()}`,
+                        email: `fulano${new Date().getTime()}@gmail.com`,
                         senha: "123456"
                     });
             
