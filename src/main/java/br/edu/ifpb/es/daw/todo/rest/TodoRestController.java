@@ -41,7 +41,7 @@ public class TodoRestController {
 	@PostMapping
 	public ResponseEntity<TodoResponseDTO> adicionar(@RequestBody TodoSalvarRequestDTO dto) {
 		TodoResponseDTO resultado = todoService.criar(dto);
-		return new ResponseEntity<>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{lookupId}")
