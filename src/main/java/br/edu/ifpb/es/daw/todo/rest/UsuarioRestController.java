@@ -44,6 +44,6 @@ public class UsuarioRestController {
 	@PostMapping("/registrar")
 	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);
-		return new ResponseEntity<>(resultado, HttpStatus.OK);
+		return new ResponseEntity<>(resultado, HttpStatus.CREATED);
 	}
 }

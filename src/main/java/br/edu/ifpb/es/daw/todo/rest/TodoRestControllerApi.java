@@ -44,7 +44,7 @@ public interface TodoRestControllerApi {
 	@Operation(summary = "Criar uma nova tarefa.", 
 			   description = "Cria uma nova tarefa com base na descrição informada.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", 
+			@ApiResponse(responseCode = "201",
 						 description = "Operação realizada com sucesso.", 
 					 	 content = @Content(mediaType = "application/json",
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
