@@ -2,10 +2,8 @@ package br.edu.ifpb.es.daw.todo.rest;
 
 import br.edu.ifpb.es.daw.todo.rest.dto.LoginRequestDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.LoginResponseDTO;
-import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
