@@ -3,6 +3,7 @@ package br.edu.ifpb.es.daw.todo.rest;
 import java.util.List;
 
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioRestController {
+public class UsuarioRestController implements UsuarioRestControllerApi {
 
 	private final UsuarioService service;
 
@@ -41,6 +42,7 @@ public class UsuarioRestController {
 	// https://github.com/spring-projects/spring-security/issues/12861
 	// https://github.com/spring-projects/spring-security/issues/16250
 	//@PreAuthorize("permitAll()")
+	@SecurityRequirements
 	@PostMapping("/registrar")
 	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);

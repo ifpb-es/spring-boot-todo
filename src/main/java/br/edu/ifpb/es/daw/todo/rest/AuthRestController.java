@@ -1,12 +1,17 @@
 package br.edu.ifpb.es.daw.todo.rest;
 
+import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
 import br.edu.ifpb.es.daw.todo.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +22,11 @@ import br.edu.ifpb.es.daw.todo.rest.dto.LoginRequestDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.LoginResponseDTO;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthRestController {
+public class AuthRestController implements AuthRestControllerApi {
 
 	private final AuthService authService;
 
@@ -35,9 +41,12 @@ public class AuthRestController {
 	// https://github.com/spring-projects/spring-security/issues/12861
 	// https://github.com/spring-projects/spring-security/issues/16250
 	// @PreAuthorize("permitAll()")
+	@SecurityRequirements
 	@PostMapping("/login")
-	public LoginResponseDTO login(@RequestBody @Valid LoginRequestDTO request) {
-		return authService.logar(request);
+	@Override
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO request) {
+		LoginResponseDTO resultado = authService.logar(request);
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 
 //	@GetMapping(value = "/me")
@@ -52,10 +61,11 @@ public class AuthRestController {
 //		return principal.getName();
 //	}
 
-	@GetMapping(value = "/me")
-	public String currentUserName(@AuthenticationPrincipal(errorOnInvalidType = true) String username) {
+	@GetMapping(value = "/me", produces = MediaType.TEXT_PLAIN_VALUE)
+	@Override
+	public ResponseEntity<String> currentUserName(@AuthenticationPrincipal(errorOnInvalidType = true) String username) {
 		// XXX: O parâmetro setado por @AuthenticationPrincipal corresponde ao atributo "principal" atribuído no
 		//  construtor de UsernamePasswordAuthenticationToken em JwtAuthenticationFilter#doFilterInternal.
-		return username;
+		return new ResponseEntity<>(username, HttpStatus.OK);
 	}
 }

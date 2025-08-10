@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 
@@ -22,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "todo", description = "API Todo")
+@Tag(name = "todo")
 public interface TodoRestControllerApi {
 
 	@Operation(summary = "Retornar todas as tarefas.", 
@@ -32,11 +33,11 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 			 			array = @ArraySchema(schema = @Schema(implementation = TodoResponseDTO.class)))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<List<TodoResponseDTO>> listar() throws TodoException;
@@ -46,11 +47,11 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201",
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<TodoResponseDTO> adicionar(@RequestBody(description = "Dados da tarefa a ser criada.") 
@@ -61,15 +62,15 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "400", 
 			 			 description = "Tarefa com lookupId NÃO encontrada.", 
-			 			 content = @Content(mediaType = "application/json",
+			 			 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 			 			 					schema = @Schema(implementation = ProblemDetail.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<TodoResponseDTO> recuperarPor(@Parameter(description = "LookupId da tarefa a ser recuperada.")
@@ -80,15 +81,15 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "400", 
 			 			 description = "Tarefa com lookupId NÃO encontrada.", 
-			 			 content = @Content(mediaType = "application/json",
+			 			 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 			 			 					schema = @Schema(implementation = ProblemDetail.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<TodoResponseDTO> atualizar(@Parameter(description = "LookupId da tarefa a ser atualizada.")
@@ -104,11 +105,11 @@ public interface TodoRestControllerApi {
 					 	 content = @Content),
 			@ApiResponse(responseCode = "400", 
 			 			 description = "Tarefa com lookupId NÃO encontrada.", 
-			 			 content = @Content(mediaType = "application/json",
+			 			 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 			 			 					schema = @Schema(implementation = ProblemDetail.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<Void> remover(@Parameter(description = "LookupId da tarefa a ser removida.")
@@ -119,11 +120,11 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 						schema = @Schema(implementation = Page.class, contentSchema = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<Page<TodoResponseDTO>> buscar(@ParameterObject TodoBuscarDTO dto) throws TodoException;
@@ -133,15 +134,15 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "400", 
 			 			 description = "Tarefa com lookupId NÃO encontrada ou tarefa já foi concluída.", 
-			 			 content = @Content(mediaType = "application/json",
+			 			 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 			 			 					schema = @Schema(implementation = ProblemDetail.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<TodoResponseDTO> fazerTarefa(@Parameter(description = "LookupId da tarefa a ser marcada como concluída.")
@@ -152,15 +153,15 @@ public interface TodoRestControllerApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 						 description = "Operação realizada com sucesso.", 
-					 	 content = @Content(mediaType = "application/json",
+					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 	 					schema = @Schema(implementation = TodoResponseDTO.class))),
 			@ApiResponse(responseCode = "400", 
 			 			 description = "Tarefa com lookupId NÃO encontrada ou tarefa NÃO está marcada como concluída.", 
-			 			 content = @Content(mediaType = "application/json",
+			 			 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 			 			 					schema = @Schema(implementation = ProblemDetail.class))),
 			@ApiResponse(responseCode = "500", 
 						 description = "Erro inesperado.", 
-						 content = @Content(mediaType = "application/json",
+						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
 	ResponseEntity<TodoResponseDTO> desfazerTarefa(@Parameter(description = "LookupId da tarefa a ser desfeita.")
