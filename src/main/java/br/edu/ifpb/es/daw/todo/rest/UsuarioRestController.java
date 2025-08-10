@@ -1,8 +1,9 @@
 package br.edu.ifpb.es.daw.todo.rest;
 
-import java.util.List;
-
+import br.edu.ifpb.es.daw.todo.exception.TodoException;
+import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
+import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpb.es.daw.todo.exception.TodoException;
-import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
-import br.edu.ifpb.es.daw.todo.service.UsuarioService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuario")
@@ -31,6 +30,7 @@ public class UsuarioRestController implements UsuarioRestControllerApi {
 
     @GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Override
 	public ResponseEntity<List<UsuarioResponseDTO>> listar() throws TodoException {
 		List<UsuarioResponseDTO> resultado = service.recuperarTodos();
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -44,6 +44,7 @@ public class UsuarioRestController implements UsuarioRestControllerApi {
 	//@PreAuthorize("permitAll()")
 	@SecurityRequirements
 	@PostMapping("/registrar")
+	@Override
 	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);
 		return new ResponseEntity<>(resultado, HttpStatus.CREATED);
