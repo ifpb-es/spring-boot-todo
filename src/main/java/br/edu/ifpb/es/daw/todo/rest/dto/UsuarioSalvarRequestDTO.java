@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 public record UsuarioSalvarRequestDTO(@Schema(description = "Nome do usuário.")
                                       @NotBlank
                                       String nome,
-                                      @NotBlank
                                       @Schema(description = "E-mail do usuário (login).")
+                                      @NotBlank
                                       String email,
                                       @Schema(description = "Senha do usuário.")
                                       @NotBlank

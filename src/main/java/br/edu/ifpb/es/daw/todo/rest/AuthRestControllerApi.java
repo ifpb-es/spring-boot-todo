@@ -34,7 +34,7 @@ public interface AuthRestControllerApi {
                                             schema = @Schema(implementation = ProblemDetail.class))),
     })
     ResponseEntity<LoginResponseDTO> login(@RequestBody(description = "Login e senha do usuário para autenticar.")
-                                           LoginRequestDTO request);
+                                           LoginRequestDTO dto);
 
     @Operation(summary = "Retorna o login do usuário logado.",
                description = "Recupera o login do usuário logado com base no token de autorização fornecido no cabeçalho da requisição.")

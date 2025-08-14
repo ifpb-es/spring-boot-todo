@@ -44,8 +44,8 @@ public class AuthRestController implements AuthRestControllerApi {
 	@SecurityRequirements
 	@PostMapping("/login")
 	@Override
-	public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO request) {
-		LoginResponseDTO resultado = authService.logar(request);
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO dto) {
+		LoginResponseDTO resultado = authService.logar(dto);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 

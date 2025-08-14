@@ -5,6 +5,7 @@ import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
 import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class UsuarioRestController implements UsuarioRestControllerApi {
 	@SecurityRequirements
 	@PostMapping("/registrar")
 	@Override
-	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioSalvarRequestDTO dto) {
+	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody @Valid UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);
 		return new ResponseEntity<>(resultado, HttpStatus.CREATED);
 	}
