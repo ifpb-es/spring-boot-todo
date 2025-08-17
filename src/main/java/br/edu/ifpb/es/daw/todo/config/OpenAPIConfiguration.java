@@ -32,7 +32,6 @@ import java.util.Arrays;
 //					description = "API Tarefa"
 //			)
 //	},
-//	security = @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
 ////	externalDocs = @io.swagger.v3.oas.annotations.ExternalDocumentation(
 ////			description = "Full Documentation",
 ////			url = "http://example.com/docs"
