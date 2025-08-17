@@ -1,12 +1,6 @@
 package br.edu.ifpb.es.daw.todo.rest.advice;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
+import br.edu.ifpb.es.daw.todo.exception.EstadoInválidoException;
 import br.edu.ifpb.es.daw.todo.exception.JwtTokenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.edu.ifpb.es.daw.todo.exception.EstadoInválidoException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
