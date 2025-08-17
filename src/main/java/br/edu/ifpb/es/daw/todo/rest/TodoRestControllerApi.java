@@ -25,12 +25,12 @@ import java.util.UUID;
 @Tag(name = "todo")
 public interface TodoRestControllerApi {
 
-	@Operation(summary = "Retornar todas as tarefas.", 
+	@Operation(summary = "Retornar todas as tarefas.",
 			   description = "Retorna todas as tarefas que estão armazenadas, sem restrição alguma de quantidade.", 
 			   tags = { "todo" }) // XXX: Com a definição deste atributo "tag" você poderia associar o endpoint definido aqui 
 								  // em um outro controller. A associação é feita mediante o uso da tag definida no outro controller.
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", 
+			@ApiResponse(responseCode = "200",
 						 description = "Operação realizada com sucesso.", 
 					 	 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 					 			 			array = @ArraySchema(schema = @Schema(implementation = TodoResponseDTO.class)))),
@@ -53,7 +53,7 @@ public interface TodoRestControllerApi {
 						 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
 						 					schema = @Schema(implementation = ProblemDetail.class))),
 	})
-	ResponseEntity<TodoResponseDTO> adicionar(@RequestBody(description = "Dados da tarefa a ser criada.") 
+	ResponseEntity<TodoResponseDTO> adicionar(@RequestBody(description = "Dados da tarefa a ser criada.")
 											  TodoSalvarRequestDTO dto) throws TodoException;
 
 	@Operation(summary = "Recuperar uma tarefa existente.", 
