@@ -160,6 +160,24 @@
 						"url": "{{URL}}/usuario/registrar"
 					},
 					"response": []
+				},
+				{
+					"name": "usuario-mudar-senha",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"senhaAtual\": \"123456\",\n    \"senhaNova\": \"123457\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/usuario/mudar-senha"
+					},
+					"response": []
 				}
 			]
 		},
