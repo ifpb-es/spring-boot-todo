@@ -1,17 +1,16 @@
 package br.edu.ifpb.es.daw.todo.rest.advice;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URI;
-import java.time.LocalDateTime;
-
+import br.edu.ifpb.es.daw.todo.exception.EstadoInválidoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.edu.ifpb.es.daw.todo.exception.EstadoInválidoException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
