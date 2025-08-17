@@ -1,14 +1,5 @@
 package br.edu.ifpb.es.daw.todo.rest;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
-
 import br.edu.ifpb.es.daw.todo.exception.TodoException;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoBuscarDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.TodoResponseDTO;
@@ -22,6 +13,14 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "todo")
 public interface TodoRestControllerApi {
