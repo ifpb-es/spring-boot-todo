@@ -30,15 +30,7 @@ import java.util.Arrays;
 //			@io.swagger.v3.oas.annotations.tags.Tag(
 //					name = "todo",
 //					description = "API Tarefa"
-//			),
-//			@io.swagger.v3.oas.annotations.tags.Tag(
-//					name = "auth",
-//					description = "API Autenticação"
-//			),
-//			@io.swagger.v3.oas.annotations.tags.Tag(
-//					name = "usuario",
-//					description = "API Usuário"
-//			),
+//			)
 //	},
 //	security = @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
 ////	externalDocs = @io.swagger.v3.oas.annotations.ExternalDocumentation(
