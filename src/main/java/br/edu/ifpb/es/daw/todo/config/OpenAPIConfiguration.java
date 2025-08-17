@@ -1,12 +1,14 @@
 package br.edu.ifpb.es.daw.todo.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.tags.Tag;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.Arrays;
 
 @Configuration
 //@io.swagger.v3.oas.annotations.OpenAPIDefinition(
@@ -23,7 +25,26 @@ import io.swagger.v3.oas.models.info.License;
 //	        			name = "Apache 2.0",
 //	        			url = "http://www.apache.org/licenses/LICENSE-2.0"
 //	        		)
-//	)
+//	),
+//	tags = {
+//			@io.swagger.v3.oas.annotations.tags.Tag(
+//					name = "todo",
+//					description = "API Tarefa"
+//			),
+//			@io.swagger.v3.oas.annotations.tags.Tag(
+//					name = "auth",
+//					description = "API Autenticação"
+//			),
+//			@io.swagger.v3.oas.annotations.tags.Tag(
+//					name = "usuario",
+//					description = "API Usuário"
+//			),
+//	},
+//	security = @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
+////	externalDocs = @io.swagger.v3.oas.annotations.ExternalDocumentation(
+////			description = "Full Documentation",
+////			url = "http://example.com/docs"
+////	),
 //)
 public class OpenAPIConfiguration {
 	
@@ -40,7 +61,8 @@ public class OpenAPIConfiguration {
 	                            //.email("support@example.com"))
 	                    .license(new License()
 	                            .name("Apache 2.0")
-	                            .url("http://www.apache.org/licenses/LICENSE-2.0")));
+	                            .url("http://www.apache.org/licenses/LICENSE-2.0")))
+				.tags(Arrays.asList(new Tag().name("todo").description("API Tarefa")));
 //	            .externalDocs(new ExternalDocumentation()
 //	                    .description("Full Documentation")
 //	                    .url("http://example.com/docs"));
