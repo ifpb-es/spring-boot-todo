@@ -1,25 +1,22 @@
 package br.edu.ifpb.es.daw.todo.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import br.edu.ifpb.es.daw.todo.mapper.UsuarioMapper;
-import br.edu.ifpb.es.daw.todo.model.Todo;
-import br.edu.ifpb.es.daw.todo.rest.dto.TodoSalvarRequestDTO;
+import br.edu.ifpb.es.daw.todo.model.Usuario;
+import br.edu.ifpb.es.daw.todo.repository.UsuarioRepository;
+import br.edu.ifpb.es.daw.todo.rest.dto.MudarSenhaRequestDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.edu.ifpb.es.daw.todo.model.Usuario;
-import br.edu.ifpb.es.daw.todo.repository.UsuarioRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -40,11 +37,15 @@ public class UsuarioService implements UserDetailsService {
 		Usuario objNovo = mapper.from(dto);
 
 		// Codificar a senha
-		String senhaCodificada = passwordEncoder.encode(dto.senha());
-		objNovo.setSenha(senhaCodificada);
+		encodePassword(objNovo);
 
 		Usuario objCriado = repository.save(objNovo);
 		return mapper.from(objCriado);
+	}
+
+	private void encodePassword(Usuario obj) {
+		String senhaCodificada = passwordEncoder.encode(obj.getSenha());
+		obj.setSenha(senhaCodificada);
 	}
 	
 	public List<UsuarioResponseDTO> recuperarTodos() {
@@ -55,8 +56,8 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	private Usuario ensureExists(UUID lookupId) {
-		Optional<Usuario> todoOpt = repository.findByLookupId(lookupId);
-		Usuario obj = todoOpt.orElseThrow(() -> new IllegalArgumentException(String.format("Entidade 'Usuario' de lookupId '%s' não foi encontrada!", lookupId)));
+		Optional<Usuario> usuarioOpt = repository.findByLookupId(lookupId);
+		Usuario obj = usuarioOpt.orElseThrow(() -> new IllegalArgumentException(String.format("Entidade 'Usuario' de lookupId '%s' não foi encontrada!", lookupId)));
 		return obj;
 	}
 
@@ -88,4 +89,24 @@ public class UsuarioService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));	
 	}
 
+    @Transactional
+	public void mudarSenha(MudarSenhaRequestDTO dto, String emailUsuarioLogado) {
+		Optional<Usuario> usuarioOpt = repository.findByEmail(emailUsuarioLogado);
+		Usuario usuario = usuarioOpt.orElseThrow(() -> new IllegalArgumentException(String.format("Entidade 'Usuario' de e-mail '%s' não foi encontrada!", emailUsuarioLogado)));
+
+		// Verificar se a senha informada é correta
+		String senhaAtual = usuario.getSenha();
+		String senhaInformada = dto.senhaAtual();
+		String senhaNova = dto.senhaNova();
+		boolean senhaCorreta = passwordEncoder.matches(senhaInformada, senhaAtual);
+		if (!senhaCorreta) {
+			throw new BadCredentialsException("Senha errada!");
+		}
+
+		// Codificar a senha
+		usuario.setSenha(senhaNova);
+		encodePassword(usuario);
+
+		repository.save(usuario);
+	}
 }

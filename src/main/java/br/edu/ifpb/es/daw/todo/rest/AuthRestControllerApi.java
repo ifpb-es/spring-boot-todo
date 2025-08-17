@@ -49,6 +49,6 @@ public interface AuthRestControllerApi {
                                             schema = @Schema(implementation = ProblemDetail.class))),
     })
     ResponseEntity<String> currentUserName(@Parameter(hidden = true, description = "Parâmetro injetado pelo Spring")
-                           String username);
+                                           String username);
 
 }

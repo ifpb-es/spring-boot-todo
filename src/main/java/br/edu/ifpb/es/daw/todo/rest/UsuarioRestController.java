@@ -1,6 +1,7 @@
 package br.edu.ifpb.es.daw.todo.rest;
 
 import br.edu.ifpb.es.daw.todo.exception.TodoException;
+import br.edu.ifpb.es.daw.todo.rest.dto.MudarSenhaRequestDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioResponseDTO;
 import br.edu.ifpb.es.daw.todo.rest.dto.UsuarioSalvarRequestDTO;
 import br.edu.ifpb.es.daw.todo.service.UsuarioService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,5 +51,13 @@ public class UsuarioRestController implements UsuarioRestControllerApi {
 	public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody @Valid UsuarioSalvarRequestDTO dto) {
 		UsuarioResponseDTO resultado = service.criar(dto);
 		return new ResponseEntity<>(resultado, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/mudar-senha")
+	@Override
+	public ResponseEntity<Void> mudarSenha(@RequestBody @Valid MudarSenhaRequestDTO dto,
+										   @AuthenticationPrincipal(errorOnInvalidType = true) String username) {
+		service.mudarSenha(dto, username);
+		return ResponseEntity.noContent().build();
 	}
 }
