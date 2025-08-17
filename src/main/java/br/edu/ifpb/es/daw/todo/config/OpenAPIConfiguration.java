@@ -25,7 +25,7 @@ import io.swagger.v3.oas.models.info.License;
 //	        		)
 //	)
 //)
-public class SpringDocConfiguration {
+public class OpenAPIConfiguration {
 	
 	@Bean
 	OpenAPI customOpenAPI() {
