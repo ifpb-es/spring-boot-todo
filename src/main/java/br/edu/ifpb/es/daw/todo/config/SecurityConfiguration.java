@@ -1,12 +1,12 @@
 package br.edu.ifpb.es.daw.todo.config;
 
+import br.edu.ifpb.es.daw.todo.rest.filter.JwtAuthenticationFilter;
+import br.edu.ifpb.es.daw.todo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,9 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import br.edu.ifpb.es.daw.todo.service.UsuarioService;
-import br.edu.ifpb.es.daw.todo.rest.filter.JwtAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -74,9 +71,16 @@ public class SecurityConfiguration {
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    	DaoAuthenticationProvider provider = new DaoAuthenticationProvider(usuarioService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(provider);
+        // XXX: comentado abaixo uma abordagem manual, deixando mais explícito que o AuthenticationManager precisa do
+        //  nosso PasswordEncoder e UserDetailsService (implementado pela classe UsuarioService). O spring consegue
+        //  identificar automaticamente devido:
+        //  * PasswordEncoder: método produtor (@Bean) disponibilizado em (PasswordEncoderConfiguration#passwordEncoder())
+        //  * UserDetailsService: nossa classe UsuarioService implementa a interface UserDetailsService, além de ser anotada
+        //  com @Service, permitindo, portanto, que ela seja injetada pelo Spring.
+//    	DaoAuthenticationProvider provider = new DaoAuthenticationProvider(usuarioService);
+//        provider.setPasswordEncoder(passwordEncoder);
+//        return new ProviderManager(provider);
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
