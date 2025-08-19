@@ -1,10 +1,10 @@
 package br.edu.ifpb.es.daw.todo.rest.filter;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import br.edu.ifpb.es.daw.todo.service.JwtService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,23 +12,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
-    private JwtService jwtUtils;
+    private final JwtService jwtService;
 
     @Autowired
-    public JwtAuthenticationFilter(HandlerExceptionResolver handlerExceptionResolver, JwtService jwtUtils) {
+    public JwtAuthenticationFilter(HandlerExceptionResolver handlerExceptionResolver, JwtService jwtService) {
         this.handlerExceptionResolver = handlerExceptionResolver;
-        this.jwtUtils = jwtUtils;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -38,9 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = getJwtFromRequest(request);
         
         try {
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                List<String> roles = jwtUtils.getRolesFromJwtToken(jwt);
+            if (jwt != null && jwtService.validateJwtToken(jwt)) {
+                String username = jwtService.getUserNameFromJwtToken(jwt);
+                List<String> roles = jwtService.getRolesFromJwtToken(jwt);
 
                 List<GrantedAuthority> authorities = roles.stream()
                         .map(SimpleGrantedAuthority::new)

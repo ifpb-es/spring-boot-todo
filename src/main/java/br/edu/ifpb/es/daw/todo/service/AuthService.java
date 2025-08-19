@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private AuthenticationManager authenticationManager;
-    private JwtService jwtUtils;
+    private JwtService jwtService;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JwtService jwtUtils) {
+    public AuthService(AuthenticationManager authenticationManager, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
+        this.jwtService = jwtService;
     }
 
     public LoginResponseDTO logar(LoginRequestDTO request) {
@@ -30,7 +30,7 @@ public class AuthService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // Generate JWT token
-        String jwtToken = jwtUtils.generateJwtToken(userDetails);
+        String jwtToken = jwtService.generateJwtToken(userDetails);
 
         return new LoginResponseDTO("Autenticação realizada com sucesso!", jwtToken);
     }
