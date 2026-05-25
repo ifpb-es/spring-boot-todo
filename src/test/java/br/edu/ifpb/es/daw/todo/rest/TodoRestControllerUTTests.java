@@ -111,9 +111,9 @@ public class TodoRestControllerUTTests {
         when(todoService.criar(payload)).thenReturn(resultado);
 
         mockMvc.perform(post("/todo")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(payload))
-                        .accept(MediaType.APPLICATION_JSON))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(payload))
+                            .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.lookupId").value(matchesPattern("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")))
@@ -201,7 +201,7 @@ public class TodoRestControllerUTTests {
         when(todoService.fazerTarefa(resultado.lookupId())).thenReturn(resultado);
 
         mockMvc.perform(patch("/todo/{lookupId}/fazer", resultado.lookupId().toString())
-                        .accept(MediaType.APPLICATION_JSON))
+                            .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.lookupId").value(resultado.lookupId().toString()))
